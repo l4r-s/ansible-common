@@ -1,0 +1,32 @@
+---
+# This playbook contains some basic setup steps that should be run on all nodes.
+
+- name: create /etc/resolv.conf
+  template: src=resolv.conf.j2 dest=/etc/resolv.conf
+
+- name: Yum should only use IPv4
+  lineinfile:
+    path: /etc/yum.conf
+    line: 'ip_resolve=4'
+  tags: yum
+
+- name: Enable epel repo
+  yum: name=epel-release state=present
+  tags: yum
+
+- name: Install ntp
+  yum: name=ntp state=present
+  tags: ntp
+
+- name: Configure ntp file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  tags: ntp
+  notify: restart ntpd
+
+- name: Start the ntp service
+  service: name=ntpd state=started enabled=yes
+  tags: ntp
+
+- name: Configure sudo
+  include_role:
+    name: sudo
