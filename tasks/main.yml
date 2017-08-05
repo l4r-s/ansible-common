@@ -29,4 +29,19 @@
 
 - name: Configure sudo
   include_role:
-    name: sudo
+    name: sudoers
+
+- name: create user lars
+  user:
+    name: lars
+    shell: /bin/bash
+    append: yes
+    comment: "Lars"
+    uid: 1042
+    group: admin
+
+- name: Set authorized key took from github
+  authorized_key:
+    user: lars
+    state: present
+    key: https://github.com/l4r-s.keys
