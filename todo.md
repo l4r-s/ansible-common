@@ -1,6 +1,0 @@
-- Add to the common setup stuff:
-	- SSH keys
-	- Timezone
-	- Locale
-	- Users
-	- SELinux?
