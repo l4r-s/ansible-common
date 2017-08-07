@@ -17,7 +17,10 @@
 
 - name: upgrade all packages
   yum: name=* state=latest
-  notify: reboot server
+  tags: common
+
+- name: reboot server
+  command: /sbin/reboot
   tags: common
 
 - name: wait for container to reboot
